@@ -1,1 +1,1 @@
-# HackerNews_Scraper
+# HackerNews Scraper
