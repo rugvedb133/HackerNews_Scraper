@@ -1,19 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 import pprint
+import sys
 
-res = requests.get('https://news.ycombinator.com/news')
-res2 = requests.get('https://news.ycombinator.com/news?p=2')
-soup = BeautifulSoup(res.text, 'html.parser')
-soup2 = BeautifulSoup(res2.text, 'html.parser')
+website='https://news.ycombinator.com/news?p='
+mega_links = []
+mega_subtext=[]
 
-links = soup.select('.storylink')
-subtext = soup.select('.subtext')
-links2 = soup2.select('.storylink')
-subtext2 = soup2.select('.subtext')
-
-mega_links = links + links2
-mega_subtext = subtext + subtext2
+for i in range(1,int(sys.argv[1])):
+	res = requests.get(website+str(i))
+	soup = BeautifulSoup(res.text, 'html.parser')
+	links = soup.select('.storylink')
+	subtext = soup.select('.subtext')
+	mega_links+=links
+	mega_subtext+=subtext
 
 def sort_stories_by_votes(hnlist):
 	return sorted(hnlist, key= lambda k:k['votes'], reverse=True)
